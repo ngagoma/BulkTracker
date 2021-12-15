@@ -1,0 +1,62 @@
+Class Region:
+	-	name 
+	-	id 
+Class Cluster:
+	-	name 
+	-	id 
+	-	foreingkey region(oneToMany)
+Class Az:
+	-	name 
+	-	id 
+	-	foreingkey Cluster(oneToMany)
+class site :
+	-	name 
+	-	id 
+	-	foreingkey Az(oneToMany)
+Class DataHall :
+	-	name 
+	-	id 
+	-	foreingkey Site(oneToMany)
+	
+class RackPosition:
+	-	name 
+	-	id 
+	-	foreingkey DataHall(oneToMany)
+	
+Class RackUnit:
+	- 	id
+	-	foreingkey RackPosition
+	-	rackRange [5 - 42]
+	- 	maxPanel 13
+	
+Class DarkAndBulkFiberPanel :
+	- 	name (FTP 001 - 1-288)  -- (FTP 002 - 288 - 532) 
+	- 	id
+	-	final maxPort 288
+	- 	type(SCSC -  LCLC - LCSC - LCLC_bulk)
+	-	foreingkey RackPosition
+	-	fiberType choice(BulkFiber or DarkFiber)
+	-	portFiberRange []
+	
+Class Reservation:
+	- 	reservation_name
+	-	fbn
+	- 	master_tt
+	-	user
+	- 	portRange []
+	-	foreingkey DarkAndBulkFiberPanel
+
+Class DarkFiber :
+	- 	name (FTP 001 - 1-288)  -- (FTP 002 - 288 - 532) 
+	- 	port id
+	-	final maxPort
+	- 	type(SCSC -  LCLC - LCSC)
+	-	foreingkey RackPosition
+
+Class Connection:
+	-	type1 - DarkAndBulkFiberPanel
+	-	type2 - DarkAndBulkFiberPanel
+	-	id
+	- 	connection boolean
+	
+tag all AZs
